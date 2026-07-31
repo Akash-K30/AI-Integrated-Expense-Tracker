@@ -1,0 +1,31 @@
+import { createContext, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+export const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState('');
+  const [token, setToken] = useState(localStorage.getItem('token') || '');
+  const navigate = useNavigate();
+
+
+  const login = (newToken, newUser) => {
+    localStorage.setItem('token', newToken);
+    setToken(newToken);
+    setUser(newUser);
+    navigate('/');
+  };
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    setToken('');
+    setUser(null);
+    navigate('/login');
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, token, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
