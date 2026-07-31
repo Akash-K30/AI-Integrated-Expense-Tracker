@@ -11,6 +11,8 @@ export default function Dashboard() {
   const [insights, setInsights] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
   const getCurrentMonthYear = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
@@ -30,7 +32,7 @@ useEffect(() => {
 const fetchExpenses = async () => {
     const [year, month] = selectedMonth.split('-');
 
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+    
     
     const res = await fetch(`${API_URL}/api/expenses?month=${month}&year=${year}`, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -45,7 +47,7 @@ const fetchExpenses = async () => {
 
   const handleAddExpense = async (e) => {
     e.preventDefault();
-    await fetch('http://localhost:5000/api/expenses', {
+    await fetch(`${API_URL}/api/expenses`, {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -63,7 +65,7 @@ const getInsights = async () => {
     setLoading(true);
     const [year, month] = selectedMonth.split('-');
     try {
-      const res = await fetch(`http://localhost:5000/api/expenses/insights?month=${month}&year=${year}`, {
+      const res = await fetch(`${API_URL}/api/expenses?month=${month}&year=${year}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
