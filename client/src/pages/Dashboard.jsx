@@ -65,7 +65,7 @@ const getInsights = async () => {
     setLoading(true);
     const [year, month] = selectedMonth.split('-');
     try {
-      const res = await fetch(`${API_URL}/api/expenses?month=${month}&year=${year}`, {
+      const res = await fetch(`${API_URL}/api/expenses/insights/?month=${month}&year=${year}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       const data = await res.json();
