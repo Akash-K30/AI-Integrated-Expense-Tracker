@@ -29,8 +29,10 @@ useEffect(() => {
 
 const fetchExpenses = async () => {
     const [year, month] = selectedMonth.split('-');
+
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
     
-    const res = await fetch(`http://localhost:5000/api/expenses?month=${month}&year=${year}`, {
+    const res = await fetch(`${API_URL}/api/expenses?month=${month}&year=${year}`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
     if (res.ok) {

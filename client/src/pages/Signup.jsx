@@ -3,6 +3,7 @@ import { AuthContext } from '../context/AuthContext';
 import { Link } from 'react-router-dom';
 import { User, Mail, Lock } from "lucide-react";
 
+
 export default function Signup() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -13,7 +14,8 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('http://localhost:5000/api/auth/signup', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const res = await fetch(`${API_URL}/api/auth/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, password }),
