@@ -86,7 +86,7 @@ export const expenseController = {
 
     try {
 
-        const summary = await expenseModel.getSummary(req.user.id);
+        const summary = await ExpenseModel.getSummary(req.user.id);
 
         res.status(200).json(summary);
 
