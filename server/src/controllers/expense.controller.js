@@ -14,6 +14,165 @@ export const expenseController = {
     }
   },
 
+  updateExpense: async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const {
+            description,
+            amount,
+            category,
+            date,
+            type,
+            payment_method,
+            notes
+        } = req.body;
+
+        const updatedExpense = await expenseModel.updateExpense(
+            id,
+            req.user.id,
+            {
+                description,
+                amount,
+                category,
+                date,
+                type,
+                payment_method,
+                notes
+            }
+        );
+
+        if (!updatedExpense) {
+            return res.status(404).json({
+                message: "Transaction not found"
+            });
+        }
+
+        res.json(updatedExpense);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            message: "Unable to update transaction"
+        });
+
+    }
+
+},
+
+ deleteExpense : async (req, res) => {
+
+    try {
+
+        const { id } = req.params;
+
+        const deleted = await expenseModel.deleteExpense(
+            id,
+            req.user.id
+        );
+
+        if (!deleted) {
+
+            return res.status(404).json({
+
+                message: "Transaction not found"
+
+            });
+
+        }
+
+        res.json({
+
+            message: "Transaction deleted successfully"
+
+        });
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+
+            message: "Unable to delete transaction"
+
+        });
+
+    }
+
+},
+
+  getCategoryDistribution: async (req, res) => {
+
+    try {
+
+        const { month, year } = req.query;
+
+        const data = await expenseModel.getCategoryDistribution(
+
+            req.user.id,
+
+            month,
+
+            year
+
+        );
+
+        res.json(data);
+
+    }
+
+    catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+
+            message: "Unable to fetch category chart."
+
+        });
+
+    }
+
+},
+
+  getMonthlyExpenses: async (req, res) => {
+
+    try {
+
+        const { month, year } = req.query;
+
+        const data = await expenseModel.getMonthlyExpenses(
+
+            req.user.id,
+
+            month,
+
+            year
+
+        );
+
+        res.json(data);
+
+    }
+
+    catch(err){
+
+        res.status(500).json({
+
+            message:"Unable to load chart."
+
+        });
+
+    }
+
+},
+
   // ... (keep addExpense exactly the same as before) ...
   addExpense: async (req, res, next) => {
     try {

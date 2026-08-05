@@ -102,6 +102,248 @@ export const ExpenseModel = {
 
     };
 
+},
+
+ getMonthlyExpenses: async (
+
+    userId,
+
+    month,
+
+    year
+
+)=>{
+
+    const query=`
+
+    SELECT
+
+    DATE(date) day,
+
+    SUM(amount) total
+
+    FROM expenses
+
+    WHERE
+
+    user_id=$1
+
+    AND type='debit'
+
+    AND EXTRACT(MONTH FROM date)=$2
+
+    AND EXTRACT(YEAR FROM date)=$3
+
+    GROUP BY DATE(date)
+
+    ORDER BY DATE(date)
+
+    `;
+
+    const {rows}=await pool.query(
+
+        query,
+
+        [
+
+            userId,
+
+            month,
+
+            year
+
+        ]
+
+    );
+
+    return rows;
+
+},
+
+ getCategoryDistribution: async (
+
+    userId,
+
+    month,
+
+    year
+
+) => {
+
+    const query = `
+
+    SELECT
+
+        category,
+
+        SUM(amount) AS total
+
+    FROM expenses
+
+    WHERE
+
+        user_id=$1
+
+        AND type='debit'
+
+        AND EXTRACT(MONTH FROM date)=$2
+
+        AND EXTRACT(YEAR FROM date)=$3
+
+    GROUP BY category
+
+    ORDER BY total DESC;
+
+    `;
+
+    const { rows } = await pool.query(
+
+        query,
+
+        [
+
+            userId,
+
+            month,
+
+            year
+
+        ]
+
+    );
+
+    return rows;
+
+},
+
+updateExpense: async (
+
+    id,
+
+    userId,
+
+    transaction
+
+) => {
+
+    const {
+
+        description,
+
+        amount,
+
+        category,
+
+        date,
+
+        type,
+
+        payment_method,
+
+        notes
+
+    } = transaction;
+
+    const query = `
+
+        UPDATE expenses
+
+        SET
+
+            description=$1,
+
+            amount=$2,
+
+            category=$3,
+
+            date=$4,
+
+            type=$5,
+
+            payment_method=$6,
+
+            notes=$7
+
+        WHERE
+
+            id=$8
+
+            AND user_id=$9
+
+        RETURNING *;
+
+    `;
+
+    const { rows } = await pool.query(
+
+        query,
+
+        [
+
+            description,
+
+            amount,
+
+            category,
+
+            date,
+
+            type,
+
+            payment_method,
+
+            notes,
+
+            id,
+
+            userId
+
+        ]
+
+    );
+
+    return rows[0];
+
+},
+
+ deleteExpense: async (
+
+    id,
+
+    userId
+
+) => {
+
+    const query = `
+
+        DELETE FROM expenses
+
+        WHERE
+
+            id=$1
+
+            AND user_id=$2
+
+        RETURNING *;
+
+    `;
+
+    const { rows } = await pool.query(
+
+        query,
+
+        [
+
+            id,
+
+            userId
+
+        ]
+
+    );
+
+    return rows[0];
+
 }
 
 };

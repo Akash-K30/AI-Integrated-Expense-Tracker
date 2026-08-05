@@ -4,14 +4,15 @@ import "./Dashboard.css";
 
 import { AuthContext } from "../context/AuthContext";
 
-import Header from "../../components/Header/Header";
-import Footer from "../../components/Footer/Footer";
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
 
-import SummaryCards from "../../components/SummaryCards/SummaryCards";
-import TransactionForm from "../../components/TransactionForm/TransactionForm";
-import TransactionList from "../../components/TransactionList/TransactionList";
+import SummaryCards from "../components/SummaryCards/SummaryCards";
+import TransactionForm from "../components/TransactionForm/TransactionForm";
+import TransactionList from "../components/TransactionList/TransactionList";
 
-import AIInsights from "../../components/AIInsights/AIInsights";
+import AIInsights from "../components/AIInsights/AIInsights";
+import DashboardAnalytics from "../components/DashboardAnalytics/DashboardAnalytics";
 
 import {
     getTransactions,
@@ -19,7 +20,7 @@ import {
     updateTransaction,
     deleteTransaction,
     getSummary
-} from "../../services/expenseService";
+} from "../services/expenseService";
 
 export default function Dashboard() {
 
@@ -218,6 +219,12 @@ export default function Dashboard() {
                         loading={loading}
 
                     />
+
+                    <DashboardAnalytics
+
+        month={selectedMonth}
+
+    />    
 
                 </div>
 

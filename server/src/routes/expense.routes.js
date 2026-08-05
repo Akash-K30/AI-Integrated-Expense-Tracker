@@ -8,6 +8,9 @@ router.get("/summary", expenseController.getSummary);
 router.get('/', expenseController.getExpenses);
 router.post('/', expenseController.addExpense);
 router.get('/insights', expenseController.getAIInsights);
-
+router.get("/monthly", expenseController.getMonthlyExpenses);
+router.get("/categories", expenseController.getCategoryDistribution);
+router.put("/:id", expenseController.updateExpense);
+router.delete("/:id",  expenseController.deleteExpense);
 
 export default router;
