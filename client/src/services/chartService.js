@@ -6,7 +6,7 @@ export const getMonthlyData = async(month)=>{
 
     const response=await API.get(
 
-        `/expenses/monthly?month=${monthNo}&year=${year}`
+        `/api/expenses/monthly?month=${monthNo}&year=${year}`
 
     );
 
@@ -20,7 +20,7 @@ export const getCategoryData = async (month) => {
 
     const response = await API.get(
 
-        `/expenses/categories?month=${monthNo}&year=${year}`
+        `/api/expenses/categories?month=${monthNo}&year=${year}`
 
     );
 
