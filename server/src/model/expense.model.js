@@ -16,13 +16,33 @@ export const ExpenseModel = {
     return result.rows;
   },
 
-  createExpense: async (description, amount, category, userId) => {
-    const result = await pool.query(
-      'INSERT INTO expenses (description, amount, category, user_id) VALUES ($1, $2, $3, $4) RETURNING *',
-      [description, amount, category, userId]
-    );
-    return result.rows[0];
-  },
+ createExpense: async ({ userId, amount, category, description, date, type, paymentMethod, notes }) => {
+  const result = await pool.query(
+    `INSERT INTO expenses(
+      user_id,
+      amount,
+      category,
+      description,
+      date,
+      type,
+      payment_method,
+      notes
+    )
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`, 
+    [
+      userId,
+      amount,
+      category,
+      description,
+      date,
+      type,
+      paymentMethod,
+      notes
+    ]
+  );
+  
+  return result.rows[0];
+},
 
   // Updated: Filter AI data by month so insights are highly relevant
   getDataForAI: async (userId, month, year) => {
@@ -36,5 +56,52 @@ export const ExpenseModel = {
 
     const result = await pool.query(query, params);
     return result.rows;
-  }
+  },
+
+ getSummary : async (userId) => {
+
+    const query = `
+        SELECT
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN type='credit'
+                        THEN amount
+                        ELSE 0
+                    END
+                ),0
+            ) AS income,
+
+            COALESCE(
+                SUM(
+                    CASE
+                        WHEN type='debit'
+                        THEN amount
+                        ELSE 0
+                    END
+                ),0
+            ) AS expense
+
+        FROM expenses
+        WHERE user_id=$1
+    `;
+
+    const { rows } = await pool.query(query, [userId]);
+
+    const income = Number(rows[0].income);
+
+    const expense = Number(rows[0].expense);
+
+    return {
+
+        income,
+
+        expense,
+
+        balance: income - expense
+
+    };
+
+}
+
 };

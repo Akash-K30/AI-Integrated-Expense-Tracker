@@ -6,7 +6,7 @@ export const expenseController = {
     try {
       const userId = req.user.id;
       const { month, year } = req.query; // Extract from URL
-      
+
       const expenses = await ExpenseModel.getAllExpenses(userId, month, year);
       res.status(200).json(expenses);
     } catch (error) {
@@ -18,13 +18,36 @@ export const expenseController = {
   addExpense: async (req, res, next) => {
     try {
       const userId = req.user.id;
-      const { description, amount, category } = req.body;
-      
+      const { amount, category, description, date, type, paymentMethod, notes } = req.body;
+
       if (!description || !amount || !category) {
         return res.status(400).json({ error: 'Description, amount, and category are required.' });
       }
 
-      const newExpense = await ExpenseModel.createExpense(description, amount, category, userId);
+      if (!["credit", "debit"].includes(type)) {
+        return res.status(400).json({
+          message: "Invalid transaction type"
+        });
+      }
+
+      const newExpense = await ExpenseModel.createExpense({
+
+        amount,
+
+        category,
+
+        description,
+
+        date,
+
+        type,
+
+        paymentMethod,
+
+        notes
+
+      });
+
       res.status(201).json(newExpense);
     } catch (error) {
       next(error);
@@ -35,12 +58,12 @@ export const expenseController = {
     try {
       const userId = req.user.id;
       const { month, year } = req.query; // Extract from URL
-      
+
       const expenses = await ExpenseModel.getDataForAI(userId, month, year);
 
       if (expenses.length === 0) {
-        return res.status(200).json({ 
-          insight: "No expenses found for this month! Add some data so I can help analyze your spending." 
+        return res.status(200).json({
+          insight: "No expenses found for this month! Add some data so I can help analyze your spending."
         });
       }
 
@@ -57,5 +80,26 @@ export const expenseController = {
     } catch (error) {
       next(error);
     }
-  }
+  },
+
+ getSummary : async (req, res) => {
+
+    try {
+
+        const summary = await expenseModel.getSummary(req.user.id);
+
+        res.status(200).json(summary);
+
+    } catch (err) {
+
+        console.error(err);
+
+        res.status(500).json({
+            message: "Failed to fetch summary"
+        });
+
+    }
+
+}
+
 };
