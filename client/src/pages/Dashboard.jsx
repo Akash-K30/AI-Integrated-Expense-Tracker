@@ -206,29 +206,27 @@ export default function Dashboard() {
 
             <div className="dashboard-grid">
 
-                <div>
+                <div className="dashboard-main">
 
-                    <TransactionList
+                    <div className="ledger-panel">
 
-                        transactions={transactions}
+                        <TransactionList
 
-                        onEdit={setEditingTransaction}
+                            transactions={transactions}
 
-                        onDelete={handleDelete}
+                            onEdit={setEditingTransaction}
 
-                        loading={loading}
+                            onDelete={handleDelete}
 
-                    />
+                            loading={loading}
 
-                    <DashboardAnalytics
+                        />
 
-        month={selectedMonth}
-
-    />    
+                    </div>
 
                 </div>
 
-                <div>
+                <aside className="dashboard-side">
 
                     <AIInsights
 
@@ -236,7 +234,13 @@ export default function Dashboard() {
 
                     />
 
-                </div>
+                    <DashboardAnalytics
+
+                        month={selectedMonth}
+
+                    />
+
+                </aside>
 
             </div>
 
