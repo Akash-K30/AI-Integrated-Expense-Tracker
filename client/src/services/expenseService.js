@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-     baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api"
+     baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/"
 });
 
 // Automatically attach JWT
@@ -35,17 +35,17 @@ export const getTransactions = async (month) => {
 };
 
 export const addTransaction = async (transaction) => {
-    const response = await API.post("/expenses", transaction);
+    const response = await API.post("/api/expenses", transaction);
     return response.data;
 };
 
 export const updateTransaction = async (id, transaction) => {
-    const response = await API.put(`/expenses/${id}`, transaction);
+    const response = await API.put(`/api/expenses/${id}`, transaction);
     return response.data;
 };
 
 export const deleteTransaction = async (id) => {
-    const response = await API.delete(`/expenses/${id}`);
+    const response = await API.delete(`/api/expenses/${id}`);
     return response.data;
 };
 
@@ -60,7 +60,7 @@ export const getSummary = async (month) => {
 
     const response = await API.get(
 
-        `/expenses/summary?month=${monthNo}&year=${year}`
+        `/api/expenses/summary?month=${monthNo}&year=${year}`
 
     );
 
@@ -74,7 +74,7 @@ export const getSummary = async (month) => {
 // =======================
 
 export const generateInsights = async () => {
-    const response = await API.get("/expenses/insights");
+    const response = await API.get("/api/expenses/insights");
     return response.data;
 };
 
