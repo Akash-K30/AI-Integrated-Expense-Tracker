@@ -26,7 +26,7 @@ export const getTransactions = async (month) => {
 
     const response = await API.get(
 
-        `/expenses?month=${monthNo}&year=${year}`
+        `/api/expenses?month=${monthNo}&year=${year}`
 
     );
 
