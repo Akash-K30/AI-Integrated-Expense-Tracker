@@ -20,9 +20,18 @@ API.interceptors.request.use((config) => {
 // Transactions
 // =======================
 
-export const getTransactions = async () => {
-    const response = await API.get("/expenses");
+export const getTransactions = async (month) => {
+
+    const [year, monthNo] = month.split("-");
+
+    const response = await API.get(
+
+        `/expenses?month=${monthNo}&year=${year}`
+
+    );
+
     return response.data;
+
 };
 
 export const addTransaction = async (transaction) => {
@@ -45,9 +54,18 @@ export const deleteTransaction = async (id) => {
 // Dashboard Summary
 // =======================
 
-export const getSummary = async () => {
-    const response = await API.get("/expenses/summary");
+export const getSummary = async (month) => {
+
+    const [year, monthNo] = month.split("-");
+
+    const response = await API.get(
+
+        `/expenses/summary?month=${monthNo}&year=${year}`
+
+    );
+
     return response.data;
+
 };
 
 

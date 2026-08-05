@@ -1,0 +1,155 @@
+.transaction-card{
+
+    background:white;
+
+    border-radius:10px;
+
+    padding:18px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+
+    border-left:6px solid #ccc;
+
+}
+
+.credit{
+
+    border-left-color:#16a34a;
+
+}
+
+.debit{
+
+    border-left-color:#dc2626;
+
+}
+
+.transaction-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.transaction-top h3{
+
+    margin:0;
+
+}
+
+.category{
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+.amount{
+
+    font-size:22px;
+
+    font-weight:bold;
+
+}
+
+.credit .amount{
+
+    color:#16a34a;
+
+}
+
+.debit .amount{
+
+    color:#dc2626;
+
+}
+
+.transaction-middle{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:15px;
+
+    color:#666;
+
+    font-size:14px;
+
+}
+
+.notes{
+
+    margin-top:15px;
+
+    color:#444;
+
+    background:#f6f6f6;
+
+    padding:10px;
+
+    border-radius:6px;
+
+}
+
+.actions{
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:10px;
+
+    margin-top:18px;
+
+}
+
+.edit-btn{
+
+    background:#2563eb;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.delete-btn{
+
+    background:#dc2626;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:6px;
+
+    cursor:pointer;
+
+}
+
+.edit-btn:hover{
+
+    background:#1d4ed8;
+
+}
+
+.delete-btn:hover{
+
+    background:#b91c1c;
+
+}
