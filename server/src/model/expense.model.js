@@ -118,9 +118,9 @@ export const ExpenseModel = {
 
     SELECT
 
-    DATE(date) day,
+    DATE("date") AS day,
 
-    SUM(amount) total
+    SUM(amount) AS total
 
     FROM expenses
 
@@ -134,9 +134,8 @@ export const ExpenseModel = {
 
     AND EXTRACT(YEAR FROM date)=$3
 
-    GROUP BY DATE(date)
-
-    ORDER BY DATE(date)
+    GROUP BY DATE("date")
+    ORDER BY DATE("date");
 
     `;
 
@@ -238,7 +237,7 @@ updateExpense: async (
 
         type,
 
-        payment_method,
+        paymentmethod,
 
         notes
 
@@ -290,7 +289,7 @@ updateExpense: async (
 
             type,
 
-            payment_method,
+            paymentmethod,
 
             notes,
 

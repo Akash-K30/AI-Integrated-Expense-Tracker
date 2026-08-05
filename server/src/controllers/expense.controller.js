@@ -26,11 +26,11 @@ export const expenseController = {
             category,
             date,
             type,
-            payment_method,
+            paymentmethod,
             notes
         } = req.body;
 
-        const updatedExpense = await expenseModel.updateExpense(
+        const updatedExpense = await ExpenseModel.updateExpense(
             id,
             req.user.id,
             {
@@ -39,7 +39,7 @@ export const expenseController = {
                 category,
                 date,
                 type,
-                payment_method,
+                paymentmethod,
                 notes
             }
         );
@@ -70,7 +70,7 @@ export const expenseController = {
 
         const { id } = req.params;
 
-        const deleted = await expenseModel.deleteExpense(
+        const deleted = await ExpenseModel.deleteExpense(
             id,
             req.user.id
         );
@@ -113,7 +113,7 @@ export const expenseController = {
 
         const { month, year } = req.query;
 
-        const data = await expenseModel.getCategoryDistribution(
+        const data = await ExpenseModel.getCategoryDistribution(
 
             req.user.id,
 
@@ -147,7 +147,7 @@ export const expenseController = {
 
         const { month, year } = req.query;
 
-        const data = await expenseModel.getMonthlyExpenses(
+        const data = await ExpenseModel.getMonthlyExpenses(
 
             req.user.id,
 
@@ -164,6 +164,7 @@ export const expenseController = {
     catch(err){
 
         res.status(500).json({
+            error: err.message,
 
             message:"Unable to load chart."
 
@@ -191,21 +192,23 @@ export const expenseController = {
 
       const newExpense = await ExpenseModel.createExpense({
 
-        amount,
+    userId,
 
-        category,
+    amount,
 
-        description,
+    category,
 
-        date,
+    description,
 
-        type,
+    date,
 
-        paymentMethod,
+    type,
 
-        notes
+    paymentMethod,
 
-      });
+    notes
+
+});
 
       res.status(201).json(newExpense);
     } catch (error) {
